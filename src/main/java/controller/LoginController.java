@@ -34,7 +34,7 @@ public class LoginController {
             SecurityService securityService = SecurityService.getInstance();
             if (securityService.isExistingUser(userInfo)) {
                 request.getSession().setAttribute(USER_INFO_KEY, userInfo.getLogin());
-                response.sendRedirect(APP_PATH + WELCOME_PAGE + ".jhtml");
+                response.sendRedirect(request.getServletPath() + "/" + WELCOME_PAGE + ".jhtml");
             } else {
                 request.setAttribute("errorMessage", "Неверный логин или пароль");
                 request.getRequestDispatcher(JSP_PATH + LOGIN_PAGE + ".jsp").forward(request, response);

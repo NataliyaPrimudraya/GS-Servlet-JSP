@@ -17,6 +17,6 @@ public class LogoutController {
     public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         session.invalidate();
-        response.sendRedirect(APP_PATH + LOGIN_PAGE + ".jhtml");
+        response.sendRedirect(request.getServletPath() + "/" + LOGIN_PAGE + ".jhtml");
     }
 }

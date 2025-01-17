@@ -2,7 +2,6 @@ package config;
 
 public class Constants {
 
-    public static final String APP_PATH = "/webdispatch/";
     public static final String JSP_PATH = "/WEB-INF/jsp/";
     public static final String WELCOME_PAGE = "welcome";
     public static final String LOGIN_PAGE = "login";

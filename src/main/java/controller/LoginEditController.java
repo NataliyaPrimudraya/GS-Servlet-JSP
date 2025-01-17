@@ -26,6 +26,6 @@ public class LoginEditController {
         String userLogin = (String) request.getSession().getAttribute(USER_INFO_KEY);
         SecurityService securityService = SecurityService.getInstance();
         securityService.updateUser(userLogin, request.getParameter("password"));
-        response.sendRedirect(APP_PATH + LOGOUT_PAGE + ".jhtml");
+        response.sendRedirect(request.getServletPath() + "/" + LOGOUT_PAGE + ".jhtml");
     }
 }
