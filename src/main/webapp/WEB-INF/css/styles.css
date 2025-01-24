@@ -109,7 +109,8 @@ header{
     padding-bottom: 8px;
 }
 
-.form--login h1 {
+.form--login h1,
+.form--login-edit h1{
     margin-bottom: 8px;
 }
 
@@ -117,10 +118,12 @@ header{
     min-height: 32px;
 }
 
-.form--login .error--visible{
+.form--login .error--visible,
+.form--login-edit .error--visible{
     color: red;
     padding-bottom: 8px;
 }
+
 .form--login-edit{
     width: 500px;
 }

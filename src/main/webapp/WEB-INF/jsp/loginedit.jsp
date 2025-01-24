@@ -48,22 +48,23 @@
 
     <section class="form form--login-edit">
         <h1>${title}</h1>
+        <div class="error<c:if test="${not empty errorMessage}">--visible</c:if>">${errorMessage}</div>
         <form action="<c:url value="/loginedit.jhtml?id=${user.id}"/>" method="post">
             <input type="hidden" name="id" value="${user.id}">
             <label for="login">Логин</label>
-            <input type="text" id="login" name="login" value="${user.login}" placeholder="Логин" required>
+            <input type="text" id="login" name="login" value="${user.login}" placeholder="Логин">
             <label for="password">Пароль</label>
-            <input type="password" id="password" name="password" value="${user.password}" required>
+            <input type="password" id="password" name="password" value="${user.password}">
             <label for="email">Электронная почта</label>
-            <input type="email" id="email" name="email" value="${user.email}" placeholder="Email" required>
+            <input type="email" id="email" name="email" value="${user.email}" placeholder="Email">
             <label for="surname">Фамилия</label>
-            <input type="text" id="surname" name="surname" value="${user.surname}" placeholder="Фамилия" required>
+            <input type="text" id="surname" name="surname" value="${user.surname}" placeholder="Фамилия">
             <label for="name">Имя</label>
-            <input type="text" id="name" name="name" value="${user.name}" placeholder="Имя" required>
+            <input type="text" id="name" name="name" value="${user.name}" placeholder="Имя">
             <label for="patronymic">Отчество</label>
-            <input type="text" id="patronymic" name="patronymic" value="${user.patronymic}" placeholder="Отчество" required>
+            <input type="text" id="patronymic" name="patronymic" value="${user.patronymic}" placeholder="Отчество">
             <label for="birthdate">Дата рождения</label>
-            <input type="date" id="birthdate" name="birthdate" value="${user.birthdate}" placeholder="Дата рождения" required>
+            <input type="date" id="birthdate" name="birthdate" value="${user.birthdate}" placeholder="Дата рождения">
             <label for="role">Роль</label><br>
             <select id="role" name="role" required>
                 <option value="${user.role}" selected hidden>

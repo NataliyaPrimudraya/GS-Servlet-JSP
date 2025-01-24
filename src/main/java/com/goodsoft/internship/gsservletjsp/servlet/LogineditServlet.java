@@ -11,6 +11,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import static com.goodsoft.internship.gsservletjsp.config.Constants.*;
@@ -42,6 +44,24 @@ public class LogineditServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         SecurityService securityService = SecurityService.getInstance();
         String stringID = req.getParameter("id");
+        Map<String, String> params = new HashMap<>();
+        params.put("login", req.getParameter("login"));
+        params.put("password", req.getParameter("password"));
+        params.put("email", req.getParameter("email"));
+        params.put("surname", req.getParameter("surname"));
+        params.put("name", req.getParameter("name"));
+        params.put("patronymic", req.getParameter("patronymic"));
+        params.put("birthdate", req.getParameter("birthdate"));
+        params.put("role", req.getParameter("role"));
+
+        boolean isValid = true;
+        for(String param : params.values()){
+            if (param.isEmpty()) {
+                isValid = false;
+                break;
+            }
+        }
+
         User user = User.builder()
                 .login(req.getParameter("login"))
                 .password(req.getParameter("password"))
@@ -52,16 +72,21 @@ public class LogineditServlet extends HttpServlet {
                 .birthdate(LocalDate.parse(req.getParameter("birthdate")))
                 .role(Role.valueOf(req.getParameter("role")))
                 .build();
-        System.out.println("id:" + stringID+ " user " + user);
-        if(Objects.equals(stringID, "")){
-            securityService.createUser(user);
-        } else {
-            int userId = Integer.parseInt(stringID);
-            if(securityService.readUserById(userId)!=null){
-                user.setId(userId);
-                securityService.updateUser(user);
+
+        if(isValid){
+            if(Objects.equals(stringID, "")){
+                securityService.createUser(user);
+            } else {
+                int userId = Integer.parseInt(stringID);
+                if(securityService.readUserById(userId)!=null){
+                    user.setId(userId);
+                    securityService.updateUser(user);
+                }
             }
+        } else {
+            req.setAttribute("errorMessage", "Неверные данные");
+            req.setAttribute("user", user);
+            req.getRequestDispatcher(JSP_PATH + LOGIN_EDIT_PAGE + ".jsp").forward(req, resp);
         }
-        resp.sendRedirect(req.getContextPath() + USERS_LIST_PAGE + ".jhtml");
     }
 }
