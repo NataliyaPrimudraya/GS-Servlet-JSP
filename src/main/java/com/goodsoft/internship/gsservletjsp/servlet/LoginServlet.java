@@ -27,13 +27,12 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter(ACTION_PARAM);
         if (LOGIN_ACTION_PERFORM.equals(action)) {
-            User userInfo = User.builder()
-                    .login(req.getParameter("login"))
-                    .password(req.getParameter("password"))
-                    .build();
             SecurityService securityService = SecurityService.getInstance();
-            if (securityService.isExistingUser(userInfo)) {
-                req.getSession().setAttribute(USER_INFO_KEY, userInfo.getLogin());
+            String login = req.getParameter("login");
+            String password = req.getParameter("password");
+            User user = securityService.readUserByLoginAndPassword(login, password);
+            if (user != null) {
+                req.getSession().setAttribute(USER_INFO_KEY, user);
                 resp.sendRedirect(req.getContextPath() + WELCOME_PAGE + ".jhtml");
             } else {
                 req.setAttribute("errorMessage", "Неверный логин или пароль");

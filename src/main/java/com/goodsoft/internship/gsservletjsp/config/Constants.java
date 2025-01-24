@@ -6,5 +6,6 @@ public class Constants {
     public static final String LOGIN_PAGE = "/login";
     public static final String LOGOUT_PAGE = "/logout";
     public static final String LOGIN_EDIT_PAGE = "/loginedit";
-    public static final String USER_INFO_KEY = "user";
+    public static final String USERS_LIST_PAGE = "/userslist";
+    public static final String USER_INFO_KEY = "sessionUser";
 }
