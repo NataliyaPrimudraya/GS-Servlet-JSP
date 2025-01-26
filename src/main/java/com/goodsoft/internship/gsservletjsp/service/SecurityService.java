@@ -43,9 +43,15 @@ public class SecurityService {
         return securityService;
     }
 
-    public void createUser(User user) {
+    public boolean createUser(User user) {
+        for(User u : users) {
+            if(u.getLogin().equals(user.getLogin())) {
+                return false;
+            }
+        }
         user.setId(counter++);
         users.add(user);
+        return true;
     }
 
     public User readUserById(int id) {
@@ -70,12 +76,20 @@ public class SecurityService {
         return users;
     }
 
-    public void updateUser(User user) {
+    public boolean updateUser(User user) {
+        List<User> usersCopy = new ArrayList<>(users);
+        usersCopy.removeIf(u -> u.getId() == user.getId());
+        for(User u : usersCopy) {
+            if(u.getLogin().equals(user.getLogin())) {
+                return false;
+            }
+        }
         for (User u : users) {
             if (u.getId() == user.getId()) {
                 users.set(users.indexOf(u), user);
             }
         }
+        return true;
     }
 
     public void deleteUserById(int id) {

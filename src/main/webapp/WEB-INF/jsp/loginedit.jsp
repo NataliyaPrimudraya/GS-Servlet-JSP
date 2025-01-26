@@ -56,7 +56,7 @@
             <label for="password">Пароль</label>
             <input type="password" id="password" name="password" value="${user.password}">
             <label for="email">Электронная почта</label>
-            <input type="email" id="email" name="email" value="${user.email}" placeholder="Email">
+            <input type="text" id="email" name="email" value="${user.email}" placeholder="Email">
             <label for="surname">Фамилия</label>
             <input type="text" id="surname" name="surname" value="${user.surname}" placeholder="Фамилия">
             <label for="name">Имя</label>
