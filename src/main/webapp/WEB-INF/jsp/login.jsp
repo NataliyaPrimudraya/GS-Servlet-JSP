@@ -1,14 +1,8 @@
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <html>
-<head>
-    <title>Авторизация</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <style>
-        <%@include file="/WEB-INF/css/normalize.css"%>
-        <%@include file="/WEB-INF/css/styles.css"%>
-    </style>
-</head>
+<t:headproperties title="Авторизация"/>
 <body>
 <main>
     <section class="form form--login">
