@@ -1,0 +1,82 @@
+package com.goodsoft.internship.gsservletjsp.service.impl;
+
+import com.goodsoft.internship.gsservletjsp.enumeration.Role;
+import com.goodsoft.internship.gsservletjsp.service.UserService;
+import com.goodsoft.internship.gsservletjsp.service.ValidationService;
+import jakarta.servlet.http.HttpServletRequest;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+public class ValidationServiceImpl implements ValidationService {
+
+    private static final String EMAIL_PATTERN = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
+    private final UserService userService;
+
+    public ValidationServiceImpl(UserService userService) {
+        this.userService = userService;
+    }
+
+    @Override
+    public List<String> validateUserRequest(HttpServletRequest req) {
+        List<String> errorMessages = new ArrayList<>();
+
+        if (Objects.equals(req.getParameter("login"), "")) {
+            errorMessages.add("Введите логин");
+        } else {
+            int userId = 0;
+            if (!Objects.equals(req.getParameter("id"), "")) userId = Integer.parseInt(req.getParameter("id"));
+            if (userService.isLoginTaken(userId, req.getParameter("login"))) errorMessages.add("Логин занят");
+        }
+
+        if (Objects.equals(req.getParameter("password"), "")) {
+            errorMessages.add("Введите пароль");
+        }
+
+        if (Objects.equals(req.getParameter("email"), "")) {
+            errorMessages.add("Введите email");
+        } else if (!req.getParameter("email").matches(EMAIL_PATTERN)) {
+            errorMessages.add("Неверный формат email");
+        }
+
+        if (Objects.equals(req.getParameter("surname"), "")) {
+            errorMessages.add("Введите фамилию");
+        }
+
+        if (Objects.equals(req.getParameter("name"), "")) {
+            errorMessages.add("Введите имя");
+        }
+
+        if (Objects.equals(req.getParameter("patronymic"), "")) {
+            errorMessages.add("Введите отчество");
+        }
+
+        if (Objects.equals(req.getParameter("birthdate"), "")) {
+            errorMessages.add("Введите дату рождения");
+        } else {
+            LocalDate birthdate = null;
+            try {
+                birthdate = LocalDate.parse(req.getParameter("birthdate"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            } catch (DateTimeParseException e) {
+                errorMessages.add("Неверный формат даты рождения");
+            }
+            if (birthdate != null && !birthdate.isBefore(LocalDate.now()))
+                errorMessages.add("Неверное значение даты рождения");
+        }
+
+        if (Objects.equals(req.getParameter("role"), "")) {
+            errorMessages.add("Выберите роль");
+        } else {
+            try {
+                Role.valueOf(req.getParameter("role"));
+            } catch (IllegalArgumentException e) {
+                errorMessages.add("Такой роли не существует");
+            }
+        }
+        return errorMessages;
+    }
+}

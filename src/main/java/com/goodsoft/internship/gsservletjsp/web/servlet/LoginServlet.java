@@ -1,7 +1,8 @@
-package com.goodsoft.internship.gsservletjsp.servlet;
+package com.goodsoft.internship.gsservletjsp.web.servlet;
 
 import com.goodsoft.internship.gsservletjsp.entity.User;
-import com.goodsoft.internship.gsservletjsp.service.SecurityService;
+import com.goodsoft.internship.gsservletjsp.service.ServiceFactory;
+import com.goodsoft.internship.gsservletjsp.service.UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -27,10 +28,11 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter(ACTION_PARAM);
         if (LOGIN_ACTION_PERFORM.equals(action)) {
-            SecurityService securityService = SecurityService.getInstance();
+            ServiceFactory serviceFactory = ServiceFactory.newInstance();
+            UserService userService = serviceFactory.getUserServiceInstance();
             String login = req.getParameter("login");
             String password = req.getParameter("password");
-            User user = securityService.readUserByLoginAndPassword(login, password);
+            User user = userService.findByLoginAndPassword(login, password);
             if (user != null) {
                 req.getSession().setAttribute(USER_INFO_KEY, user);
                 resp.sendRedirect(req.getContextPath() + WELCOME_PAGE + ".jhtml");

@@ -1,5 +1,7 @@
-package com.goodsoft.internship.gsservletjsp.filter;
+package com.goodsoft.internship.gsservletjsp.web.filter;
 
+import com.goodsoft.internship.gsservletjsp.entity.User;
+import com.goodsoft.internship.gsservletjsp.enumeration.Role;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,10 +12,8 @@ import java.io.IOException;
 
 import static com.goodsoft.internship.gsservletjsp.config.Constants.*;
 
-
-@WebFilter(urlPatterns = "/*")
-public class AuthFilter implements Filter {
-
+@WebFilter(urlPatterns = {"/userslist.jhtml", "/loginedit.jhtml"})
+public class SecurityFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
@@ -21,16 +21,14 @@ public class AuthFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         HttpSession session = request.getSession(false);
-        String loginURI = request.getContextPath() + LOGIN_PAGE + ".jhtml";
+        String welcomeURI = request.getContextPath() + WELCOME_PAGE + ".jhtml";
 
-        boolean loggedIn = (session != null && session.getAttribute(USER_INFO_KEY) != null);
-        boolean loginRequest = request.getRequestURI().equals(loginURI);
+        User user = (User) session.getAttribute(USER_INFO_KEY);
 
-        if (loggedIn || loginRequest) {
+        if (user.getRole() == Role.ADMIN) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
-            response.sendRedirect(loginURI);
+            response.sendRedirect(welcomeURI);
         }
     }
-
 }

@@ -1,4 +1,4 @@
-package com.goodsoft.internship.gsservletjsp.servlet;
+package com.goodsoft.internship.gsservletjsp.web.servlet;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

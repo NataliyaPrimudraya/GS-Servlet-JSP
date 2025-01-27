@@ -13,7 +13,11 @@
     <main>
         <section class="form form--login-edit">
             <h1>${title}</h1>
-            <div class="error<c:if test="${not empty errorMessage}">--visible</c:if>">${errorMessage}</div>
+            <div class="error<c:if test="${not empty errorMessages}">--visible</c:if>">
+                    <c:forEach var="message" items="${errorMessages}">
+                        ${message}<br>
+                    </c:forEach>
+            </div>
             <form action="<c:url value="/loginedit.jhtml?id=${user.id}"/>" method="post">
                 <input type="hidden" name="id" value="${user.id}">
                 <label for="login">Логин</label>
