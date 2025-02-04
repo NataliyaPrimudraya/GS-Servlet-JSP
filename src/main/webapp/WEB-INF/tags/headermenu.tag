@@ -5,10 +5,12 @@
         <li class="header__menu-item">
             <a class="header__menu-link" href="<c:url value="/welcome.jhtml"/>">Главная</a>
         </li>
-        <c:if test="${sessionUser.role=='ADMIN'}">
-            <li class="header__menu-item">
-                <a class="header__menu-link" href="<c:url value="/userslist.jhtml"/>">Пользователи</a>
-            </li>
-        </c:if>
+        <c:forEach var="role" items="${sessionUser.roles}">
+            <c:if test="${role=='ADMIN'}">
+                <li class="header__menu-item">
+                    <a class="header__menu-link" href="<c:url value="/userslist.jhtml"/>">Пользователи</a>
+                </li>
+            </c:if>
+        </c:forEach>
     </ul>
 </nav>

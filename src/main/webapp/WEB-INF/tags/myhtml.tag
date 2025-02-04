@@ -5,9 +5,11 @@
 <html>
 <t:headproperties title="${title}">${headproperties}</t:headproperties>
 <body>
-<t:header><t:headerwelcome/>
+<t:header>
+    <t:headerwelcome/>
     <hr>
-    <t:headermenu/></t:header>
+    <t:headermenu/>
+</t:header>
 <jsp:doBody/>
 <t:footer>Natali copyright 2025</t:footer>
 </body>

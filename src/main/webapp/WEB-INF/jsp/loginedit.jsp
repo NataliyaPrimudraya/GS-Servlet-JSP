@@ -24,31 +24,30 @@
                 <input type="text" id="login" name="login" value="${user.login}" placeholder="Логин">
                 <label for="password">Пароль</label>
                 <input type="password" id="password" name="password" value="${user.password}">
-                <label for="email">Электронная почта</label>
-                <input type="text" id="email" name="email" value="${user.email}" placeholder="Email">
-                <label for="surname">Фамилия</label>
-                <input type="text" id="surname" name="surname" value="${user.surname}" placeholder="Фамилия">
                 <label for="name">Имя</label>
                 <input type="text" id="name" name="name" value="${user.name}" placeholder="Имя">
-                <label for="patronymic">Отчество</label>
-                <input type="text" id="patronymic" name="patronymic" value="${user.patronymic}" placeholder="Отчество">
                 <label for="birthdate">Дата рождения</label>
                 <input type="date" id="birthdate" name="birthdate" value="${user.birthdate}"
                        placeholder="Дата рождения">
-                <label for="role">Роль</label><br>
-                <select id="role" name="role" required>
-                    <option value="${user.role}" selected hidden>
-                        <c:choose>
-                            <c:when test="${user.role == 'ADMIN'}">
-                                Администратор
-                            </c:when>
-                            <c:when test="${user.role == 'USER'}">
-                                Пользователь
-                            </c:when>
-                        </c:choose></option>
-                    <option value="USER">Пользователь</option>
-                    <option value="ADMIN">Администратор</option>
-                </select>
+                <label for="age">Возраст</label>
+                <input type="number" id="age" name="age" value="${user.age}">
+                <label for="salary">Зарплата</label>
+                <input type="number" id="salary" name="salary" value="${user.salary}">
+
+                <c:forEach var="role" items="${rolesList}">
+                    <c:set var="checked" value="false"/>
+                    <c:forEach var="userRole" items="${user.roles}">
+                        <c:if test="${userRole == role}">
+                            <c:set var="checked" value="true"/>
+                        </c:if>
+                    </c:forEach>
+                    <label>
+                        ${role}
+                        <input type="checkbox" id="${role}Role" name="roles" value="${role}" <c:if test="${checked == 'true'}">checked</c:if>>
+                    </label>
+
+                </c:forEach>
+
                 <button type="submit">Подтвердить</button>
             </form>
         </section>

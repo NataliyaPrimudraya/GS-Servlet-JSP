@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -44,23 +45,23 @@ public class ValidationServiceImpl implements ValidationService {
             errorMessages.add("Введите пароль");
         }
 
-        if (Objects.equals(req.getParameter("email"), "")) {
-            errorMessages.add("Введите email");
-        } else if (!req.getParameter("email").matches(EMAIL_PATTERN)) {
-            errorMessages.add("Неверный формат email");
-        }
+//        if (Objects.equals(req.getParameter("email"), "")) {
+//            errorMessages.add("Введите email");
+//        } else if (!req.getParameter("email").matches(EMAIL_PATTERN)) {
+//            errorMessages.add("Неверный формат email");
+//        }
 
-        if (Objects.equals(req.getParameter("surname"), "")) {
-            errorMessages.add("Введите фамилию");
-        }
+//        if (Objects.equals(req.getParameter("surname"), "")) {
+//            errorMessages.add("Введите фамилию");
+//        }
 
         if (Objects.equals(req.getParameter("name"), "")) {
             errorMessages.add("Введите имя");
         }
 
-        if (Objects.equals(req.getParameter("patronymic"), "")) {
-            errorMessages.add("Введите отчество");
-        }
+//        if (Objects.equals(req.getParameter("patronymic"), "")) {
+//            errorMessages.add("Введите отчество");
+//        }
 
         if (Objects.equals(req.getParameter("birthdate"), "")) {
             errorMessages.add("Введите дату рождения");
@@ -75,11 +76,21 @@ public class ValidationServiceImpl implements ValidationService {
                 errorMessages.add("Неверное значение даты рождения");
         }
 
-        if (Objects.equals(req.getParameter("role"), "")) {
+
+        List<String> roles = Arrays.asList(req.getParameterValues("roles"));
+
+        boolean isRoleTaken = false;
+        for (String role : roles) {
+            if (!role.isEmpty()) {
+                isRoleTaken = true;
+                break;
+            }
+        }
+        if (!isRoleTaken) {
             errorMessages.add("Выберите роль");
         } else {
             try {
-                Role.valueOf(req.getParameter("role"));
+                roles.forEach(Role::valueOf);
             } catch (IllegalArgumentException e) {
                 errorMessages.add("Такой роли не существует");
             }

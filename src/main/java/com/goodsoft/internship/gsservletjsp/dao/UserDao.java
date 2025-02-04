@@ -15,8 +15,6 @@ public interface UserDao {
 
     Optional<User> findById(int id);
 
-    Optional<User> findByLogin(String login);
-
     Optional<User> findByLoginAndPassword(String login, String password);
 
     List<User> findAll();

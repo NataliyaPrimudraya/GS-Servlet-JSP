@@ -25,7 +25,7 @@ public class SecurityFilter implements Filter {
 
         User user = (User) session.getAttribute(USER_INFO_KEY);
 
-        if (user.getRole() == Role.ADMIN) {
+        if (user.getRoles().contains(Role.ADMIN)) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
             response.sendRedirect(welcomeURI);

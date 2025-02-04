@@ -1,7 +1,8 @@
 package com.goodsoft.internship.gsservletjsp.service.impl;
 
 import com.goodsoft.internship.gsservletjsp.dao.UserDao;
-import com.goodsoft.internship.gsservletjsp.dao.impl.InMemoryUserDao;
+import com.goodsoft.internship.gsservletjsp.dao.impl.SQLUserDao;
+import com.goodsoft.internship.gsservletjsp.service.DBConnectionManager;
 import com.goodsoft.internship.gsservletjsp.service.ServiceFactory;
 import com.goodsoft.internship.gsservletjsp.service.UserService;
 import com.goodsoft.internship.gsservletjsp.service.ValidationService;
@@ -37,11 +38,21 @@ public class ServiceFactoryImpl implements ServiceFactory {
         return userService;
     }
 
+    private DBConnectionManager connectionManager;
+
+    @Override
+    public DBConnectionManager getDBConnectionManagerInstance() {
+        if (connectionManager == null) {
+            this.connectionManager = DBConnectionManagerImpl.getInstance();
+        }
+        return connectionManager;
+    }
+
     private UserDao userDao;
 
     private UserDao getUserDaoInstance() {
         if (userDao == null) {
-            this.userDao = new InMemoryUserDao();
+            this.userDao = new SQLUserDao();
         }
         return userDao;
     }

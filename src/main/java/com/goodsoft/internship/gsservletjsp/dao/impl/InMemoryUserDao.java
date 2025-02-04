@@ -12,7 +12,6 @@ public class InMemoryUserDao implements UserDao {
     private final UserData data = UserData.getInstance();
     private final List<User> users = data.getUsers();
 
-
     @Override
     public User create(User user) {
         user.setId(data.getId());
@@ -39,16 +38,6 @@ public class InMemoryUserDao implements UserDao {
     public Optional<User> findById(int id) {
         for (User u : users) {
             if (u.getId() == id) {
-                return Optional.of(u);
-            }
-        }
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<User> findByLogin(String login) {
-        for (User u : users) {
-            if (u.getLogin().equals(login)) {
                 return Optional.of(u);
             }
         }

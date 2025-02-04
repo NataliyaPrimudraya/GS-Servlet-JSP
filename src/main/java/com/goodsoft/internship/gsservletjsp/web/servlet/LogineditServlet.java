@@ -13,10 +13,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.goodsoft.internship.gsservletjsp.config.Constants.*;
 
@@ -25,6 +29,7 @@ public class LogineditServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("rolesList", Arrays.asList(Role.values()));
         if (Objects.equals(req.getParameter("action"), "add")) {
             req.getRequestDispatcher(JSP_PATH + LOGIN_EDIT_PAGE + ".jsp").forward(req, resp);
         } else {
@@ -46,6 +51,8 @@ public class LogineditServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("rolesList", Arrays.asList(Role.values()));
+
         int userId = 0;
         if (!Objects.equals(req.getParameter("id"), "")) {
             userId = Integer.parseInt(req.getParameter("id"));
@@ -60,28 +67,29 @@ public class LogineditServlet extends HttpServlet {
                     .id(req.getParameter("id"))
                     .login(req.getParameter("login"))
                     .password(req.getParameter("password"))
-                    .email(req.getParameter("email"))
-                    .surname(req.getParameter("surname"))
                     .name(req.getParameter("name"))
-                    .patronymic(req.getParameter("patronymic"))
                     .birthdate(req.getParameter("birthdate"))
-                    .role(req.getParameter("role"))
+                    .age(req.getParameter("age"))
+                    .salary(req.getParameter("salary"))
+                    .roles(Arrays.asList(req.getParameterValues("roles")))
                     .build();
             req.setAttribute("errorMessages", errors);
             req.setAttribute("id", req.getParameter("id"));
             req.setAttribute("user", userRequest);
             req.getRequestDispatcher(JSP_PATH + LOGIN_EDIT_PAGE + ".jsp").forward(req, resp);
         } else {
+            List<Role> roles = Arrays.stream(req.getParameterValues("roles"))
+                    .map(Role::valueOf)
+                    .collect(Collectors.toList());
             User user = User.builder()
                     .id(userId)
                     .login(req.getParameter("login"))
                     .password(req.getParameter("password"))
-                    .email(req.getParameter("email"))
-                    .surname(req.getParameter("surname"))
                     .name(req.getParameter("name"))
-                    .patronymic(req.getParameter("patronymic"))
-                    .birthdate(LocalDate.parse(req.getParameter("birthdate")))
-                    .role(Role.valueOf(req.getParameter("role")))
+                    .birthdate(Date.valueOf(req.getParameter("birthdate")))
+                    .age(Integer.parseInt(req.getParameter("age")))
+                    .salary(new BigDecimal(req.getParameter("salary")))
+                    .roles(roles)
                     .build();
             UserService userService = serviceFactory.getUserServiceInstance();
             if (userId == 0) {

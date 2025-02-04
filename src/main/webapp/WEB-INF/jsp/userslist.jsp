@@ -8,12 +8,11 @@
             <tr>
                 <th>ID</th>
                 <th>Логин</th>
-                <th>Email</th>
-                <th>Фамилия</th>
                 <th>Имя</th>
-                <th>Отчество</th>
+                <th>Полных лет</th>
                 <th>Дата рождения</th>
-                <th>Роль</th>
+                <th>Зарплата</th>
+                <th>Роли</th>
             </tr>
             </thead>
             <tbody>
@@ -21,12 +20,15 @@
                 <tr>
                     <th>${user.id}</th>
                     <th>${user.login}</th>
-                    <th>${user.email}</th>
-                    <th>${user.surname}</th>
                     <th>${user.name}</th>
-                    <th>${user.patronymic}</th>
+                    <th>${user.age}</th>
                     <th>${user.birthdate}</th>
-                    <th>${user.role}</th>
+                    <th>${user.salary}</th>
+                    <th>
+                        <c:forEach var="role" items="${user.roles}">
+                            ${role} <br>
+                        </c:forEach>
+                    </th>
                     <th><a class="icon-link" title="редактировать"
                            href="<c:url value="/loginedit.jhtml?id=${user.id}"/>">&#9881;</a></th>
                     <th><a class="icon-link" title="удалить"
