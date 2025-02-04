@@ -8,12 +8,20 @@ import com.goodsoft.internship.gsservletjsp.service.ValidationService;
 
 public class ServiceFactoryImpl implements ServiceFactory {
 
+    private static final ServiceFactory serviceFactory = new ServiceFactoryImpl();
     private ValidationService validationService;
+
+    private ServiceFactoryImpl() {}
+
+    public static ServiceFactory getInstance() {
+        return serviceFactory;
+    }
 
     @Override
     public ValidationService getValidationServiceInstance() {
         if (validationService == null) {
-            this.validationService = new ValidationServiceImpl(getUserServiceInstance());
+            ValidationServiceImpl.getInstance().setUserService(getUserServiceInstance());
+            this.validationService = ValidationServiceImpl.getInstance();
         }
         return validationService;
     }
@@ -23,7 +31,8 @@ public class ServiceFactoryImpl implements ServiceFactory {
     @Override
     public UserService getUserServiceInstance() {
         if (userService == null) {
-            this.userService = new UserServiceImpl(getUserDaoInstance());
+            UserServiceImpl.getInstance().setUserDao(getUserDaoInstance());
+            this.userService = UserServiceImpl.getInstance();
         }
         return userService;
     }

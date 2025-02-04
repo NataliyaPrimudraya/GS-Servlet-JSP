@@ -15,9 +15,16 @@ import java.util.Objects;
 public class ValidationServiceImpl implements ValidationService {
 
     private static final String EMAIL_PATTERN = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
-    private final UserService userService;
+    private static final ValidationServiceImpl validationServiceImpl = new ValidationServiceImpl();
+    private UserService userService;
 
-    public ValidationServiceImpl(UserService userService) {
+    private ValidationServiceImpl() {}
+
+    public static ValidationServiceImpl getInstance() {
+        return validationServiceImpl;
+    }
+
+    public void setUserService(UserService userService) {
         this.userService = userService;
     }
 

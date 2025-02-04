@@ -8,6 +8,6 @@ public interface ServiceFactory {
     UserService getUserServiceInstance();
 
     static ServiceFactory newInstance() {
-        return new ServiceFactoryImpl();
+        return ServiceFactoryImpl.getInstance();
     }
 }
