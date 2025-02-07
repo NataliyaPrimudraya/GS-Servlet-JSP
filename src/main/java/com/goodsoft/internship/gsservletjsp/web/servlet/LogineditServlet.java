@@ -3,19 +3,20 @@ package com.goodsoft.internship.gsservletjsp.web.servlet;
 import com.goodsoft.internship.gsservletjsp.dto.UserRequest;
 import com.goodsoft.internship.gsservletjsp.entity.User;
 import com.goodsoft.internship.gsservletjsp.enumeration.Role;
-import com.goodsoft.internship.gsservletjsp.service.ServiceFactory;
 import com.goodsoft.internship.gsservletjsp.service.UserService;
 import com.goodsoft.internship.gsservletjsp.service.ValidationService;
+import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +28,16 @@ import static com.goodsoft.internship.gsservletjsp.config.Constants.*;
 @WebServlet("/loginedit.jhtml")
 public class LogineditServlet extends HttpServlet {
 
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private ValidationService validationService;
+
+    @Override
+    public void init(ServletConfig config) {
+        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("rolesList", Arrays.asList(Role.values()));
@@ -36,8 +47,6 @@ public class LogineditServlet extends HttpServlet {
             String stringID = req.getParameter("id");
             if (stringID != null) {
                 int userId = Integer.parseInt(stringID);
-                ServiceFactory serviceFactory = ServiceFactory.newInstance();
-                UserService userService = serviceFactory.getUserServiceInstance();
                 if (Objects.equals(req.getParameter("action"), "delete")) {
                     userService.delete(userId);
                     resp.sendRedirect(req.getContextPath() + USERS_LIST_PAGE + ".jhtml");
@@ -58,8 +67,6 @@ public class LogineditServlet extends HttpServlet {
             userId = Integer.parseInt(req.getParameter("id"));
         }
 
-        ServiceFactory serviceFactory = ServiceFactory.newInstance();
-        ValidationService validationService = serviceFactory.getValidationServiceInstance();
         List<String> errors = new ArrayList<>(validationService.validateUserRequest(req));
 
         if (!errors.isEmpty()) {
@@ -91,7 +98,6 @@ public class LogineditServlet extends HttpServlet {
                     .salary(new BigDecimal(req.getParameter("salary")))
                     .roles(roles)
                     .build();
-            UserService userService = serviceFactory.getUserServiceInstance();
             if (userId == 0) {
                 if (userService.save(user) == null) {
                     req.setAttribute("errorMessages", errors);

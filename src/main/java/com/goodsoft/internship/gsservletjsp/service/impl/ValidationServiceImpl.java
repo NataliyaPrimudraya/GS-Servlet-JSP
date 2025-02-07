@@ -4,6 +4,8 @@ import com.goodsoft.internship.gsservletjsp.enumeration.Role;
 import com.goodsoft.internship.gsservletjsp.service.UserService;
 import com.goodsoft.internship.gsservletjsp.service.ValidationService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -13,21 +15,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+@Service
 public class ValidationServiceImpl implements ValidationService {
 
-    private static final String EMAIL_PATTERN = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
-    private static final ValidationServiceImpl validationServiceImpl = new ValidationServiceImpl();
+    @Autowired
     private UserService userService;
-
-    private ValidationServiceImpl() {}
-
-    public static ValidationServiceImpl getInstance() {
-        return validationServiceImpl;
-    }
-
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
 
     @Override
     public List<String> validateUserRequest(HttpServletRequest req) {
@@ -45,23 +37,9 @@ public class ValidationServiceImpl implements ValidationService {
             errorMessages.add("Введите пароль");
         }
 
-//        if (Objects.equals(req.getParameter("email"), "")) {
-//            errorMessages.add("Введите email");
-//        } else if (!req.getParameter("email").matches(EMAIL_PATTERN)) {
-//            errorMessages.add("Неверный формат email");
-//        }
-
-//        if (Objects.equals(req.getParameter("surname"), "")) {
-//            errorMessages.add("Введите фамилию");
-//        }
-
         if (Objects.equals(req.getParameter("name"), "")) {
             errorMessages.add("Введите имя");
         }
-
-//        if (Objects.equals(req.getParameter("patronymic"), "")) {
-//            errorMessages.add("Введите отчество");
-//        }
 
         if (Objects.equals(req.getParameter("birthdate"), "")) {
             errorMessages.add("Введите дату рождения");
@@ -75,7 +53,6 @@ public class ValidationServiceImpl implements ValidationService {
             if (birthdate != null && !birthdate.isBefore(LocalDate.now()))
                 errorMessages.add("Неверное значение даты рождения");
         }
-
 
         List<String> roles = Arrays.asList(req.getParameterValues("roles"));
 

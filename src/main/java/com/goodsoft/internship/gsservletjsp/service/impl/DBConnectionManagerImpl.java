@@ -1,19 +1,16 @@
 package com.goodsoft.internship.gsservletjsp.service.impl;
 
 import com.goodsoft.internship.gsservletjsp.service.DBConnectionManager;
-import lombok.Getter;
+import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+@Service
 public class DBConnectionManagerImpl implements DBConnectionManager {
 
-    @Getter
-    private static final DBConnectionManagerImpl instance = new DBConnectionManagerImpl();
     private Connection connection;
-
-    private DBConnectionManagerImpl() {}
 
     @Override
     public void createConnection(String username, String password, String dburl, String driver) throws SQLException, ClassNotFoundException {

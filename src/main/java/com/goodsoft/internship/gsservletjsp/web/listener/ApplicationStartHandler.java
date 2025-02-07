@@ -1,25 +1,24 @@
 package com.goodsoft.internship.gsservletjsp.web.listener;
 
-import com.goodsoft.internship.gsservletjsp.entity.User;
-import com.goodsoft.internship.gsservletjsp.enumeration.Role;
+import com.goodsoft.internship.gsservletjsp.dao.impl.SQLUserDao;
 import com.goodsoft.internship.gsservletjsp.service.DBConnectionManager;
-import com.goodsoft.internship.gsservletjsp.service.ServiceFactory;
-import com.goodsoft.internship.gsservletjsp.service.UserService;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
-import jakarta.servlet.annotation.WebListener;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
-@WebListener
 public class ApplicationStartHandler implements ServletContextListener {
+
+    private DBConnectionManager connectionManager;
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+
+        ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(sce.getServletContext());
+        connectionManager = ctx.getBean(DBConnectionManager.class);
 
         ServletContext context = sce.getServletContext();
         String username = context.getInitParameter("username");
@@ -28,18 +27,17 @@ public class ApplicationStartHandler implements ServletContextListener {
         String driver = context.getInitParameter("driver");
 
         try {
-            DBConnectionManager connectionManager = ServiceFactory.newInstance().getDBConnectionManagerInstance();
             connectionManager.createConnection(username, password, dburl, driver);
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
 
+        ctx.getBean(SQLUserDao.class).init();
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         try {
-            DBConnectionManager connectionManager = ServiceFactory.newInstance().getDBConnectionManagerInstance();
             connectionManager.getConnection().close();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -3,24 +3,17 @@ package com.goodsoft.internship.gsservletjsp.service.impl;
 import com.goodsoft.internship.gsservletjsp.dao.UserDao;
 import com.goodsoft.internship.gsservletjsp.entity.User;
 import com.goodsoft.internship.gsservletjsp.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class UserServiceImpl implements UserService {
 
-    private static final UserServiceImpl userServiceImpl = new UserServiceImpl();
+    @Autowired
     private UserDao userDao;
-
-    private UserServiceImpl() {}
-
-    public static UserServiceImpl getInstance() {
-        return userServiceImpl;
-    }
-
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
-    }
 
     @Override
     public User findById(int id) {

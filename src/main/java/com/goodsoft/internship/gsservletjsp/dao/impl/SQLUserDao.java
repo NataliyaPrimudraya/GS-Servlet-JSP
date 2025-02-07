@@ -3,7 +3,9 @@ package com.goodsoft.internship.gsservletjsp.dao.impl;
 import com.goodsoft.internship.gsservletjsp.dao.UserDao;
 import com.goodsoft.internship.gsservletjsp.entity.User;
 import com.goodsoft.internship.gsservletjsp.enumeration.Role;
-import com.goodsoft.internship.gsservletjsp.service.ServiceFactory;
+import com.goodsoft.internship.gsservletjsp.service.DBConnectionManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,12 +13,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Repository
 public class SQLUserDao implements UserDao {
 
-    private final Connection conn;
+    @Autowired
+    private DBConnectionManager connectionManager;
+    private Connection conn;
 
-    public SQLUserDao() {
-        this.conn = ServiceFactory.newInstance().getDBConnectionManagerInstance().getConnection();
+    public void init(){
+        conn = connectionManager.getConnection();
     }
 
     @Override
