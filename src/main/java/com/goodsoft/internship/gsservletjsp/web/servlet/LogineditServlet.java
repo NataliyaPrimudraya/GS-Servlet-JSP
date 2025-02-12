@@ -70,6 +70,10 @@ public class LogineditServlet extends HttpServlet {
         List<String> errors = new ArrayList<>(validationService.validateUserRequest(req));
 
         if (!errors.isEmpty()) {
+            List<String> roles = new ArrayList<>();
+            if(req.getParameterValues("roles")!=null)
+                roles = Arrays.asList(req.getParameterValues("roles"));
+
             UserRequest userRequest = UserRequest.builder()
                     .id(req.getParameter("id"))
                     .login(req.getParameter("login"))
@@ -78,7 +82,7 @@ public class LogineditServlet extends HttpServlet {
                     .birthdate(req.getParameter("birthdate"))
                     .age(req.getParameter("age"))
                     .salary(req.getParameter("salary"))
-                    .roles(Arrays.asList(req.getParameterValues("roles")))
+                    .roles(roles)
                     .build();
             req.setAttribute("errorMessages", errors);
             req.setAttribute("id", req.getParameter("id"));

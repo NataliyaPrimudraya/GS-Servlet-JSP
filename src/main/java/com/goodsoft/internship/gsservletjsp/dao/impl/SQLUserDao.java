@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Repository
+//@Repository
 public class SQLUserDao implements UserDao {
 
-    @Autowired
+//    @Autowired
     private DBConnectionManager connectionManager;
     private Connection conn;
 

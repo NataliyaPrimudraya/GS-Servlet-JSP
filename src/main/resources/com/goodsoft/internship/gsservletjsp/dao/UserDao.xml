@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.goodsoft.internship.gsservletjsp.dao.UserDao">
+  <resultMap id="UserResultMap" type="com.goodsoft.internship.gsservletjsp.entity.User" autoMapping="false">
+    <id property="id" column="user_id"/>
+    <result property="login" column="user_login"/>
+    <result property="password" column="user_password"/>
+    <result property="name" column="user_name"/>
+    <result property="birthdate" column="user_birthdate"/>
+    <result property="age" column="user_age"/>
+    <result property="salary" column="user_salary"/>
+    <collection property="roles"
+                ofType="com.goodsoft.internship.gsservletjsp.enumeration.Role">
+      <result property="name" column="user_role"/>
+    </collection>
+  </resultMap>
+
+  <select id="create" resultMap="UserResultMap">
+    INSERT INTO updated_auth.users (login, password, name, birthdate, age, salary)
+    VALUES (#{login}, #{password}, #{name}, #{birthdate}, #{age}, #{salary});
+    INSERT INTO updated_auth.user_roles (user_id, role_id)
+    SELECT u.id, r.id FROM
+    (SELECT u.id FROM updated_auth.users u WHERE u.login = #{login}) u,
+    (SELECT r.id FROM updated_auth.roles r
+    <where>
+      <foreach item="item" collection="roles"
+               open="r.name in (" separator="," close=")" nullable="true">
+        #{item}
+      </foreach>
+    </where>) r;
+    SELECT
+    u.id as user_id,
+    u.login as user_login,
+    u.password as user_password,
+    u.name as user_name,
+    u.birthdate as user_birthdate,
+    u.age as user_age,
+    u.salary as user_salary,
+    r.name as user_role
+    FROM updated_auth.user_roles ur
+    FULL JOIN updated_auth.users u ON u.id = ur.user_id
+    FULL JOIN updated_auth.roles r ON ur.role_id = r.id
+    WHERE u.login = #{login}
+  </select>
+
+  <select id="update" resultMap="UserResultMap">
+    UPDATE updated_auth.users
+    SET login = #{login}, password = #{password}, name = #{name}, birthdate = #{birthdate}, age = #{age}, salary = #{salary}
+    WHERE id = #{id};
+    DELETE FROM updated_auth.user_roles WHERE user_id = #{id};
+    INSERT INTO updated_auth.user_roles (user_id, role_id)
+    SELECT u.id, r.id FROM
+    (SELECT u.id FROM updated_auth.users u WHERE u.login = #{login}) u,
+    (SELECT r.id FROM updated_auth.roles r
+    <where>
+      <foreach item="item" collection="roles"
+               open="r.name in (" separator="," close=")" nullable="true">
+        #{item}
+      </foreach>
+    </where>) r;
+    SELECT
+    u.id as user_id,
+    u.login as user_login,
+    u.password as user_password,
+    u.name as user_name,
+    u.birthdate as user_birthdate,
+    u.age as user_age,
+    u.salary as user_salary,
+    r.name as user_role
+    FROM updated_auth.user_roles ur
+    FULL JOIN updated_auth.users u ON u.id = ur.user_id
+    FULL JOIN updated_auth.roles r ON ur.role_id = r.id
+    WHERE u.login = #{login}
+  </select>
+
+
+  <delete id="delete">
+    DELETE FROM updated_auth.users WHERE id = #{id};
+    DELETE FROM updated_auth.user_roles WHERE user_id = #{id};
+  </delete>
+
+  <select id="findAll" resultMap="UserResultMap">
+    SELECT
+    u.id as user_id,
+    u.login as user_login,
+    u.password as user_password,
+    u.name as user_name,
+    u.birthdate as user_birthdate,
+    u.age as user_age,
+    u.salary as user_salary,
+    r.name as user_role
+    FROM updated_auth.users u
+    LEFT JOIN updated_auth.user_roles ur ON u.id = ur.user_id
+    LEFT JOIN updated_auth.roles r ON ur.role_id = r.id
+    ORDER BY u.id
+  </select>
+
+  <select id="findById" resultMap="UserResultMap">
+    SELECT
+    u.id as user_id,
+    u.login as user_login,
+    u.password as user_password,
+    u.name as user_name,
+    u.birthdate as user_birthdate,
+    u.age as user_age,
+    u.salary as user_salary,
+    r.name as user_role
+    FROM updated_auth.user_roles ur
+    FULL JOIN updated_auth.users u ON u.id = ur.user_id
+    FULL JOIN updated_auth.roles r ON ur.role_id = r.id
+    WHERE u.id = #{id}
+  </select>
+
+  <select id="findByLoginAndPassword" resultMap="UserResultMap">
+    SELECT
+    u.id as user_id,
+    u.login as user_login,
+    u.password as user_password,
+    u.name as user_name,
+    u.birthdate as user_birthdate,
+    u.age as user_age,
+    u.salary as user_salary,
+    r.name as user_role
+    FROM updated_auth.user_roles ur
+    FULL JOIN updated_auth.users u ON u.id = ur.user_id
+    FULL JOIN updated_auth.roles r ON ur.role_id = r.id
+    WHERE u.login = #{login} and u.password = #{password}
+  </select>
+</mapper>

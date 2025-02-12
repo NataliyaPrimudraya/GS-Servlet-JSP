@@ -54,24 +54,30 @@ public class ValidationServiceImpl implements ValidationService {
                 errorMessages.add("Неверное значение даты рождения");
         }
 
-        List<String> roles = Arrays.asList(req.getParameterValues("roles"));
-
-        boolean isRoleTaken = false;
-        for (String role : roles) {
-            if (!role.isEmpty()) {
-                isRoleTaken = true;
-                break;
-            }
-        }
-        if (!isRoleTaken) {
-            errorMessages.add("Выберите роль");
+        if(Objects.equals(req.getParameter("age"), "")){
+            errorMessages.add("Введите возраст");
         } else {
             try {
-                roles.forEach(Role::valueOf);
-            } catch (IllegalArgumentException e) {
-                errorMessages.add("Такой роли не существует");
+                if(Integer.parseInt(req.getParameter("age")) <= 18)
+                    errorMessages.add("Возраст должен быть больше 18");
+            } catch (NumberFormatException e) {
+                errorMessages.add("Неверное значение возраста");
             }
         }
+
+        if (Objects.equals(req.getParameter("salary"), "")) {
+            errorMessages.add("Введите зарплату");
+        }
+
+        try {
+            List<String> roles = Arrays.asList(req.getParameterValues("roles"));
+            roles.forEach(Role::valueOf);
+        } catch (NullPointerException e) {
+            errorMessages.add("Выберите роль");
+        } catch (IllegalArgumentException e) {
+            errorMessages.add("Такой роли не существует");
+        }
+
         return errorMessages;
     }
 }

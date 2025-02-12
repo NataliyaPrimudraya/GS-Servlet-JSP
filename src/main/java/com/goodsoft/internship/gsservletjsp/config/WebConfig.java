@@ -20,7 +20,7 @@ public class WebConfig extends SpringBootServletInitializer {
         rootContext.register(AppConfig.class);
 
         servletContext.addListener(new ContextLoaderListener(rootContext));
-        servletContext.addListener(ApplicationStartHandler.class);
+//        servletContext.addListener(ApplicationStartHandler.class);
     }
 
 }
