@@ -9,10 +9,14 @@
         <h1>Авторизация</h1>
         <div class="error<c:if test="${not empty errorMessage}">--visible</c:if>">${errorMessage}</div>
         <form action="<c:url value="/login.jhtml"/>" method="post">
-            <label for="login">Логин</label>
-            <input type="text" id="login" name="login" placeholder="Логин" required>
-            <label for="password">Пароль</label>
-            <input type="password" id="password" name="password" placeholder="Пароль" required>
+            <div class="form-group">
+                <label for="login">Логин</label>
+                <input type="text" id="login" name="login" placeholder="Логин" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" name="password" placeholder="Пароль" required>
+            </div>
             <input type="hidden" name="action" value="login">
             <button type="submit">Войти</button>
         </form>

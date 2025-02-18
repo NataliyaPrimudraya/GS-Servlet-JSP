@@ -1,6 +1,7 @@
 package com.goodsoft.internship.gsservletjsp.config;
 
 import com.goodsoft.internship.gsservletjsp.converter.UserDtoToUserConverter;
+import com.goodsoft.internship.gsservletjsp.converter.UserToUserDtoConverter;
 import com.goodsoft.internship.gsservletjsp.dao.UserDao;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -34,6 +35,7 @@ public class AppConfig implements WebMvcConfigurer  {
     public ConversionService conversionService() {
         var conversionService = new ApplicationConversionService();
         conversionService.addConverter(new UserDtoToUserConverter());
+        conversionService.addConverter(new UserToUserDtoConverter());
         return conversionService;
     }
 

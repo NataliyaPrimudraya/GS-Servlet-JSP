@@ -88,7 +88,6 @@ header{
 
 .form input{
     display: block;
-    margin-bottom: 2%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -98,6 +97,10 @@ header{
     margin-right: auto;
     display: block;
     margin-top: 16px;
+}
+
+.form-group{
+    margin-bottom: 2%;
 }
 
 .form--login{
@@ -118,14 +121,22 @@ header{
     min-height: 32px;
 }
 
+.form--login .error--visible{
+    padding-bottom: 8px;
+}
+
 .form--login .error--visible,
 .form--login-edit .error--visible{
     color: red;
-    padding-bottom: 8px;
+    display: block;
 }
 
 .form--login-edit{
     width: 500px;
+}
+
+.form--login-edit .error {
+    height: 0;
 }
 
 .add-button{
