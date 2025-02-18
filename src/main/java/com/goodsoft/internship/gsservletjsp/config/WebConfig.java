@@ -1,6 +1,5 @@
 package com.goodsoft.internship.gsservletjsp.config;
 
-import com.goodsoft.internship.gsservletjsp.web.listener.ApplicationStartHandler;
 import jakarta.servlet.ServletContext;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -20,7 +19,6 @@ public class WebConfig extends SpringBootServletInitializer {
         rootContext.register(AppConfig.class);
 
         servletContext.addListener(new ContextLoaderListener(rootContext));
-//        servletContext.addListener(ApplicationStartHandler.class);
     }
 
 }
