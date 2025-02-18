@@ -1,4 +1,4 @@
-package com.goodsoft.internship.gsservletjsp.entity;
+package com.goodsoft.internship.gsservletjsp.dto;
 
 import com.goodsoft.internship.gsservletjsp.enumeration.Role;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class UserDTO {
     private Integer id;
     private String login;
     private String password;
@@ -24,4 +24,3 @@ public class User {
     private BigDecimal salary;
     private List<Role> roles;
 }
-

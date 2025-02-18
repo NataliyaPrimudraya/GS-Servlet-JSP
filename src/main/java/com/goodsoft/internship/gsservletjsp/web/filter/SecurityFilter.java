@@ -21,7 +21,7 @@ public class SecurityFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         HttpSession session = request.getSession(false);
-        String welcomeURI = request.getContextPath() + WELCOME_PAGE + ".jhtml";
+        String welcomeURI = request.getContextPath() + "/" + WELCOME_PAGE + ".jhtml";
 
         User user = (User) session.getAttribute(USER_INFO_KEY);
 

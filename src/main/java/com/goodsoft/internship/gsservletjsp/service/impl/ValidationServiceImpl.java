@@ -54,11 +54,11 @@ public class ValidationServiceImpl implements ValidationService {
                 errorMessages.add("Неверное значение даты рождения");
         }
 
-        if(Objects.equals(req.getParameter("age"), "")){
+        if (Objects.equals(req.getParameter("age"), "")) {
             errorMessages.add("Введите возраст");
         } else {
             try {
-                if(Integer.parseInt(req.getParameter("age")) <= 18)
+                if (Integer.parseInt(req.getParameter("age")) <= 18)
                     errorMessages.add("Возраст должен быть больше 18");
             } catch (NumberFormatException e) {
                 errorMessages.add("Неверное значение возраста");
@@ -71,7 +71,7 @@ public class ValidationServiceImpl implements ValidationService {
 
         try {
             List<String> roles = Arrays.asList(req.getParameterValues("roles"));
-            roles.forEach(Role::valueOf);
+            roles.forEach(r -> Role.valueOf(r.toUpperCase()));
         } catch (NullPointerException e) {
             errorMessages.add("Выберите роль");
         } catch (IllegalArgumentException e) {
