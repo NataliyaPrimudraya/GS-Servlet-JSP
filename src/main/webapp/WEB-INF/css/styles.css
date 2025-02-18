@@ -99,8 +99,12 @@ header{
     margin-top: 16px;
 }
 
-.form-group{
+.form__group{
     margin-bottom: 2%;
+}
+
+.form .checkbox{
+    display: inline-block;
 }
 
 .form--login{
