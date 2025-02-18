@@ -14,6 +14,7 @@
 <c:choose>
     <c:when test="${not empty user.id}">
         <spring:message code="title.user.edit" var="title"/>
+        <c:set var="params" value="id=${user.id}"/>
     </c:when>
     <c:otherwise>
         <spring:message code="title.user.add" var="title"/>
