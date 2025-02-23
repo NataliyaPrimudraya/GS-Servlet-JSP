@@ -18,6 +18,8 @@ public interface UserDao {
 
     Optional<User> findById(int id);
 
+    Optional<User> findByLogin(String login);
+
     Optional<User> findByLoginAndPassword(@Param("login") String login, @Param("password") String password);
 
     List<User> findAll();

@@ -1,7 +1,8 @@
-package com.goodsoft.internship.gsservletjsp.web.controller;
+package com.goodsoft.internship.gsservletjsp.controller;
 
 import com.goodsoft.internship.gsservletjsp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ public class UsersController {
     @Autowired
     private UserService userService;
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public String listUsers(Model model) {
         model.addAttribute("users", userService.findAll());

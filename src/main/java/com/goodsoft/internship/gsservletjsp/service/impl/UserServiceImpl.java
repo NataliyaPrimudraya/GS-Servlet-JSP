@@ -21,6 +21,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findByLogin(String login) {
+        return userDao.findByLogin(login).orElse(null);
+    }
+
+    @Override
     public User findByLoginAndPassword(String login, String password) {
         return userDao.findByLoginAndPassword(login, password).orElse(null);
     }
@@ -32,17 +37,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
-        return userDao.create(user);
+        if(!isLoginTaken(user.getId(), user.getLogin()))
+            return userDao.create(user);
+        return null;
     }
 
     @Override
     public User update(User user) {
-        return userDao.update(user);
+        if(userDao.findById(user.getId()).isPresent())
+            return userDao.update(user);
+        return null;
     }
 
     @Override
     public void delete(int id) {
-        userDao.delete(id);
+        if(userDao.findById(id).isPresent())
+            userDao.delete(id);
     }
 
     @Override

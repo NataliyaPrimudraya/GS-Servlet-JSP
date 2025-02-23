@@ -1,20 +1,16 @@
 package com.goodsoft.internship.gsservletjsp.enumeration;
 
-public enum Role {
-    ADMIN ("Admin"),
-    USER ("User"),
-    MODERATOR ("Moderator"),
-    EDITOR ("Editor"),
-    MANAGER ("Manager");
+import org.springframework.security.core.GrantedAuthority;
 
-    private final String role;
-
-    private Role(String role) {
-        this.role = role;
-    }
+public enum Role implements GrantedAuthority {
+    ADMIN,
+    USER,
+    MODERATOR,
+    EDITOR,
+    MANAGER;
 
     @Override
-    public String toString() {
-        return role;
+    public String getAuthority() {
+        return name();
     }
 }

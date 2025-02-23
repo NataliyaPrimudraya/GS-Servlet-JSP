@@ -113,6 +113,22 @@
     WHERE u.id = #{id}
   </select>
 
+  <select id="findByLogin" resultMap="UserResultMap">
+    SELECT
+    u.id as user_id,
+    u.login as user_login,
+    u.password as user_password,
+    u.name as user_name,
+    u.birthdate as user_birthdate,
+    u.age as user_age,
+    u.salary as user_salary,
+    r.name as user_role
+    FROM updated_auth.user_roles ur
+    FULL JOIN updated_auth.users u ON u.id = ur.user_id
+    FULL JOIN updated_auth.roles r ON ur.role_id = r.id
+    WHERE u.login = #{login}
+  </select>
+
   <select id="findByLoginAndPassword" resultMap="UserResultMap">
     SELECT
     u.id as user_id,

@@ -6,6 +6,8 @@
 <spring:message code="label.login" var="login"/>
 <spring:message code="label.password" var="password"/>
 <spring:message code="button.enter" var="enter"/>
+<spring:message code="error.wrong.credentials" var="error"/>
+<spring:message code="warning.logout" var="warning"/>
 <html>
 <t:headproperties title="${title}"/>
 <body>
@@ -13,7 +15,14 @@
     <t:languages/>
     <section class="form form--login">
         <h1>${title}</h1>
-        <div class="error<c:if test="${not empty errorMessage}">--visible</c:if>">${errorMessage}</div>
+        <div class="error">
+            <c:if test="${param.error != null}">
+                <span class="error--visible">${error}</span>
+            </c:if>
+            <c:if test="${param.logout != null}">
+                <span class="error--visible">${warning}</span>
+            </c:if>
+        </div>
         <form action="<c:url value="/login.jhtml"/>" method="post">
             <div class="form__group">
                 <label for="login">${login}</label>

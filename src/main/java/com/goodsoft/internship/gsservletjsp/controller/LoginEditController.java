@@ -1,4 +1,4 @@
-package com.goodsoft.internship.gsservletjsp.web.controller;
+package com.goodsoft.internship.gsservletjsp.controller;
 
 import com.goodsoft.internship.gsservletjsp.dto.Marker;
 import com.goodsoft.internship.gsservletjsp.dto.UserDTO;
@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -39,6 +40,7 @@ public class LoginEditController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public String getLoginEditPage(@RequestParam(name = "id", required = false) Integer id,
                                    @RequestParam(name = "action", required = false) String action,
@@ -48,7 +50,7 @@ public class LoginEditController {
         if (Objects.equals(action, "add")) {
             model.addAttribute("user", new UserDTO());
             return LOGIN_EDIT_PAGE;
-        } else if (id != null && userService.findById(id) != null) {
+        } else if (id != null) {
             if (Objects.equals(action, "delete")) {
                 userService.delete(id);
                 return "redirect:" + USERS_LIST_PAGE + ".jhtml";
@@ -59,6 +61,7 @@ public class LoginEditController {
         } else return "redirect:" + USERS_LIST_PAGE + ".jhtml";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @Validated(Marker.OnUpdate.class)
     @PostMapping
     public String editLogin(@ModelAttribute("user") @Valid UserDTO userDTO,
@@ -68,13 +71,12 @@ public class LoginEditController {
             return LOGIN_EDIT_PAGE;
         } else {
             User user = conversionService.convert(userDTO, User.class);
-            if (userService.findById(userDTO.getId()) != null) {
-                userService.update(user);
-            }
+            userService.update(user);
             return "redirect:" + USERS_LIST_PAGE + ".jhtml";
         }
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @Validated(Marker.OnCreate.class)
     @PostMapping(params = "id==''")
     public String addLogin(@ModelAttribute("user") @Valid UserDTO userDTO,

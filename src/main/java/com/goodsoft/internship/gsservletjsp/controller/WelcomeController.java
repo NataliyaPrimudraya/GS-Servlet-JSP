@@ -1,4 +1,4 @@
-package com.goodsoft.internship.gsservletjsp.web.controller;
+package com.goodsoft.internship.gsservletjsp.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

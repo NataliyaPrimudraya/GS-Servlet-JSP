@@ -147,6 +147,24 @@ header{
     padding-top: 10px;
 }
 
+.link-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: inline;
+    font: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+.link-button:focus{
+    outline-style:none;
+}
+
+.link-form{
+    display: inline;
+}
+
 .icon-link:hover{
     text-decoration: none;
 }
