@@ -12,6 +12,10 @@ public class MyUserDetails implements UserDetails {
 
     private final User user;
 
+    public User getUser() {
+        return user;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return user.getRoles();

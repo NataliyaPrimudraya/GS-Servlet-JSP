@@ -30,8 +30,6 @@ public class UserDTO {
     @NotBlank
     private String name;
 
-    @NotNull
-    @Past
     private Date birthdate;
 
     @NotNull
