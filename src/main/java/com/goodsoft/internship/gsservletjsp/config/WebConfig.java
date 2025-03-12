@@ -1,5 +1,6 @@
 package com.goodsoft.internship.gsservletjsp.config;
 
+import jakarta.servlet.ServletConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -9,7 +10,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
     }
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class<?>[] { AppConfig.class };
+        return new Class<?>[] { AppConfig.class, SecurityConfig.class };
     }
     @Override
     protected String[] getServletMappings() {

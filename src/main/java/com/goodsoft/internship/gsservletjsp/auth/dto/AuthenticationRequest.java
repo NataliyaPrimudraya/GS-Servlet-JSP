@@ -1,4 +1,4 @@
-package com.goodsoft.internship.gsservletjsp.auth;
+package com.goodsoft.internship.gsservletjsp.auth.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
